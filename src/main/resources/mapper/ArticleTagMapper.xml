@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kemorebi.forum.mapper.ArticleTagMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kemorebi.forum.model.entity.ArticleTag">
+        <id column="id" property="id" />
+        <result column="aid" property="aid" />
+        <result column="tag_id" property="tagId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, aid, tag_id
+    </sql>
+
+</mapper>
