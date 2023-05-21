@@ -108,6 +108,12 @@
             <artifactId>j2cache-core</artifactId>
             <version>2.8.0-release</version>
         </dependency>
+        <!--p6spy-->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>3.8.7</version>
+        </dependency>
         <!--mybatis-plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
