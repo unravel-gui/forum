@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Data
@@ -12,26 +13,20 @@ import java.io.Serializable;
 @ApiModel(value = "QueryParamDTO", description = "查询参数类，查询条件之间为and关系，不使用的必须置为空null")
 public class QueryParamDTO implements Serializable {
     /**
-     * 查询关键字 模糊查询文章标题or文章简介or文章内容
+     * 查询关键字 模糊查询文章标题or文章简介
      */
     @ApiModelProperty("查询关键字")
     private String query;
 
     /**
-     * 类ID
+     * 分类
      */
-    @ApiModelProperty("类ID")
-    private Long typeId;
+    @ApiModelProperty("分类")
+    private String type ;
 
     /**
-     * 标签ID
+     * true按热度排序，false按创建时间排序
      */
-    @ApiModelProperty("标签ID")
-    private Long tagId;
-
-    /**
-     * 用户名, 查询用户时，使用这个字段其他为空
-     */
-    @ApiModelProperty("用户名")
-    private String username;
+    @ApiModelProperty("排序方式")
+    private Boolean status;
 }

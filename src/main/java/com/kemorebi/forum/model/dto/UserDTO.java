@@ -2,9 +2,14 @@ package com.kemorebi.forum.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 
+@Data
+@ToString
 @ApiModel(value = "UserDTO", description = "用户信息传输类")
 public class UserDTO  implements Serializable {
 
@@ -30,7 +35,7 @@ public class UserDTO  implements Serializable {
      * 年龄
      */
     @ApiModelProperty("年龄")
-    private String age;
+    private Integer age;
 
     /**
      * 性别

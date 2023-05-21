@@ -20,7 +20,92 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        aid, title, content, description, cover_img, published, commentabled, page_view, like_count, create_time, update_time, status
+        aid, title, content, a.description, cover_img, published, commentabled, page_view, like_count, create_time, update_time, status
     </sql>
+
+    <!-- index查询结果列 -->
+    <sql id="Index_Column_List">
+        a.aid as aid, title, a.description as description, cover_img as coverImg, page_view, like_count, create_time, update_time, t.name as type, u.nickname as author, u.avator as uavator
+    </sql>
+    <!-- index查询结果列 -->
+    <sql id="Article_By_Aid">
+        a.aid as aid, title, content, a.description as description, cover_img as coverImg, published, commentabled, page_view, like_count, create_time, update_time, t.name as type, u.nickname as author, u.avator as uavator
+    </sql>
+    <update id="addlikeCount">
+        update forum_article set like_count=like_count+1
+            where aid=#{aid}
+    </update>
+    <update id="addPageView">
+        update forum_article set page_view=page_view+1
+        where aid=#{aid}
+    </update>
+    <select id="getIndexArticleSimList" resultType="com.kemorebi.forum.model.dto.ArticleSimDTO">
+        select
+            <include refid="Index_Column_List"/>
+        from forum_article as a
+        inner join forum_article_type
+        inner join forum_type as t
+        inner join forum_article_user as au
+        inner join forum_user as u
+        where a.status=true and u.uid=au.uid
+        <choose>
+            <when test="status">
+                order by page_view desc
+            </when>
+            <otherwise>
+                order by create_time desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getQueryArticleSimList" resultType="com.kemorebi.forum.model.dto.ArticleSimDTO">
+        select
+        <include refid="Index_Column_List"/>
+        from forum_article as a
+        inner join forum_article_type
+        inner join forum_type as t
+        inner join forum_article_user as au
+        inner join forum_user as u
+        where a.status=true and u.uid=au.uid
+        and ( 1=0
+        <choose>
+            <when test="dto.query!=null">
+                or a.title like #{dto.query}
+            </when>
+            <when test="dto.type!=null">
+                or t.name like #{dto.type}
+            </when>
+            <when test="dto.query!=null">
+                or u.nickname like #{dto.query}
+            </when>
+        </choose>
+        )
+        group by a.aid
+        <choose>
+            <when test="status">
+                order by page_view desc
+            </when>
+            <otherwise>
+                order by create_time desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getArticleByAid" resultType="com.kemorebi.forum.model.dto.ArticleDTO">
+        select
+            <include refid="Article_By_Aid"/>
+        from forum_article as a
+            inner join forum_article_type
+            inner join forum_type as t
+            inner join forum_article_user as au
+            inner join forum_user as u
+        where u.uid=au.uid
+            and a.aid=#{aid}
+            <if test="published!=null">
+                and a.published=#{published}
+            </if>
+            <if test="status!=null">
+                and a.status=#{status}
+            </if>
+        group by a.aid
+    </select>
 
 </mapper>

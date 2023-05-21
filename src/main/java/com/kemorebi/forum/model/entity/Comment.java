@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +20,7 @@ import lombok.Setter;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Builder
 @Getter
 @Setter
 @TableName("forum_comment")
@@ -29,6 +33,18 @@ public class Comment implements Serializable {
      */
     @TableId(value = "com_id", type = IdType.AUTO)
     private Long comId;
+
+    /**
+     * 评论者ID
+     */
+    @TableField("uid")
+    private Long uid;
+
+    /**
+     * 文章ID
+     */
+    @TableField("aid")
+    private Long aid;
 
     /**
      * 评论内容

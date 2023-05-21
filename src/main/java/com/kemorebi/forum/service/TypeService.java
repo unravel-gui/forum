@@ -12,5 +12,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-05-18
  */
 public interface TypeService extends IService<Type> {
-
+    /**
+     * 根据分类ID删除分类，以及对应映射
+     * @param typeId
+     * @return
+     */
+    Boolean removeType(Long typeId);
 }

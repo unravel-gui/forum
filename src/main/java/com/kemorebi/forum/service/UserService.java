@@ -1,5 +1,6 @@
 package com.kemorebi.forum.service;
 
+import com.kemorebi.forum.model.dto.UserUpdateDTO;
 import com.kemorebi.forum.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
     public Boolean checkUserExist(String aoount);
+
+    public Boolean updateUser(UserUpdateDTO dto);
 }

@@ -24,13 +24,12 @@ public class IgnoreTokenConfig {
             "/**/swagger-ui/*",
             "/**/v3/api-docs/**",
             "/**/v3/api-docs-ext/**",
-            "/**/swagger-resources/**"
-//            "/menu/router/**"
+            "/**/swagger-resources/**",
+            "/api/**"
     );
 
     public static final List<String> ADMINLIST = Arrays.asList(
-            "/admin/**",
-            "/api/**"
+            "/admin/**"
     );
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 

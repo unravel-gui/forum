@@ -14,8 +14,15 @@ import java.io.Serializable;
 @Builder
 @ApiModel(value = "LoginDTO", description = "登录信息")
 public class LoginDTO implements Serializable {
+    /**
+     * 用户信息
+     */
     @ApiModelProperty(value = "用户信息")
     private UserDTO user;
+
+    /**
+     * token
+     */
     @ApiModelProperty(value = "token")
     private Token token;
 }

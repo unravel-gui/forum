@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +18,7 @@ import lombok.Setter;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Builder
 @Getter
 @Setter
 @TableName("forum_article_type")

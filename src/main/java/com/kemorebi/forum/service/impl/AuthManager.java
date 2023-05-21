@@ -31,8 +31,18 @@ public class AuthManager {
     private UserService userService;
     @Autowired
     private JwtTokenServerUtils jwtTokenServerUtils;
-    @Autowired
-    private CacheChannel cacheChannel;
+
+    // 认证成功，为用户生成jwt令牌
+//    User user = userR.getData();
+//    Token token = generateUserToken(user);
+//    UserDTO dto = UserDTO.builder()
+//            .account(user.getAccount())
+//            .age(user.getAge())
+//            .avatar(user.getAccount())
+//            .gender(user.getGender())
+//            .email(user.getEmail())
+//            .description(user.getDescription()).build();
+
 
     // 登录认证
     public R<LoginDTO> login(String account, String password) {
@@ -47,10 +57,9 @@ public class AuthManager {
         User user = userR.getData();
         Token token = generateUserToken(user);
 
-
         // 封装返回结果
         LoginDTO loginDTO = LoginDTO.builder()
-                .user(dozerUtils.map(userR.getData(), UserDTO.class))
+                .user(dozerUtils.map(user, UserDTO.class))
                 .token(token)
                 .build();
         return R.success(loginDTO);

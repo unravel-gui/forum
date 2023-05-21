@@ -1,5 +1,6 @@
 package com.kemorebi.forum.model.dto;
 
+import com.kemorebi.forum.model.entity.Tag;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @ToString
@@ -77,5 +79,17 @@ public class ArticleDTO implements Serializable {
      */
     @ApiModelProperty("修改时间")
     private LocalDateTime updateTime;
+
+    /**
+     * 类型
+     */
+    @ApiModelProperty("类型")
+    private String type;
+
+    /**
+     * 标签
+     */
+    @ApiModelProperty("标签")
+    private List<TagDTO> tags;
 
 }

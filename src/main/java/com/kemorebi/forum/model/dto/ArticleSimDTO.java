@@ -1,5 +1,7 @@
 package com.kemorebi.forum.model.dto;
 
+import com.kemorebi.forum.model.entity.Tag;
+import com.kemorebi.forum.model.entity.Type;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @ToString
@@ -64,5 +67,29 @@ public class ArticleSimDTO implements Serializable {
      */
     @ApiModelProperty("审核状态")
     private Boolean status;
+
+    /**
+     * 分类
+     */
+    @ApiModelProperty("分类")
+    private Type type;
+
+    /**
+     * 标签
+     */
+    @ApiModelProperty("标签")
+    private List<TagDTO> tags;
+
+    /**
+     * 作者
+     */
+    @ApiModelProperty("作者")
+    private String author;
+
+    /**
+     * 作者头像
+     */
+    @ApiModelProperty("作者头像")
+    private String uavator;
 
 }

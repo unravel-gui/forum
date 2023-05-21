@@ -7,6 +7,7 @@ import com.kemorebi.forum.exception.code.ExceptionCode;
 import com.kemorebi.forum.utils.jwt.JwtUserInfo;
 import com.kemorebi.forum.utils.jwt.client.JwtTokenClientUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -40,18 +41,20 @@ public class TokenContextFilter extends BaseFilter implements Filter {
         }
         // 从请求头中获取前端提交的jwt令牌
         String userToken = request.getHeader(BaseContextConstants.TOKEN_NAME);
-
+        if (StringUtils.isEmpty(userToken)) {
+            errorResponse(response, ExceptionCode.UNAUTHORIZED.getMsg(), ExceptionCode.UNAUTHORIZED.getCode(), 401);
+            return;
+        }
         JwtUserInfo jwtUserInfo = null;
         // 解析jwt令牌
         try{
-//            if (userToken==null) {
-//                errorResponse(response,ExceptionCode.JWT_ILLEGAL_ARGUMENT.getMsg(), ExceptionCode.JWT_ILLEGAL_ARGUMENT.getCode(), 401);
-//            }
             jwtUserInfo = jwtTokenClientUtils.getUserInfo(userToken);
         } catch (BizException e) {
             errorResponse(response, e.getMessage(), e.getCode(), 200);
+            return;
         } catch (Exception e) {
             errorResponse(response,"解析jwt令牌出错", R.FAIL_CODE, 200);
+            return;
         }
         // 将信息放入header
         if (jwtUserInfo != null) {
@@ -74,7 +77,7 @@ public class TokenContextFilter extends BaseFilter implements Filter {
 
         // 访问管理员路径但并不是管理员, 拦截
         if (isAdminToken(request)) {
-            errorResponse(response,"权限不足", R.FAIL_CODE, 403);
+            errorResponse(response,"权限不足", R.FAIL_CODE, 401);
             return;
         }
         filterChain.doFilter(servletRequest, servletResponse);

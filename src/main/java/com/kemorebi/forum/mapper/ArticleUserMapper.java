@@ -1,6 +1,6 @@
 package com.kemorebi.forum.mapper;
 
-import com.kemorebi.forum.model.entity.ArticleComment;
+import com.kemorebi.forum.model.entity.ArticleUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,9 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author 葵gui
- * @since 2023-05-18
+ * @since 2023-05-20
  */
 @Mapper
-public interface ArticleCommentMapper extends BaseMapper<ArticleComment> {
+public interface ArticleUserMapper extends BaseMapper<ArticleUser> {
 
 }

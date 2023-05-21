@@ -1,7 +1,13 @@
 package com.kemorebi.forum.service;
 
+import com.github.pagehelper.PageInfo;
+import com.kemorebi.forum.model.dto.TagAddDTO;
+import com.kemorebi.forum.model.dto.TagDTO;
+import com.kemorebi.forum.model.dto.TagUpdateDTO;
 import com.kemorebi.forum.model.entity.Tag;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +18,35 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-05-18
  */
 public interface TagService extends IService<Tag> {
+    /**
+     * 通过文章ID会的Tag标签
+     * @param aid
+     * @return
+     */
+    List<TagDTO> getTagListByAid(Long aid);
 
+    /**
+     * 根据用户ID获得Tag标签
+     * @param uid
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getTagListByUid(Long uid, int pageNum, int pageSize);
+
+    /**
+     * 新增标签
+     * @param dto
+     * @param uid
+     * @return
+     */
+    Boolean saveTag(TagAddDTO dto, Long uid);
+
+    /**
+     * 通过标签ID和用户ID 删除标签
+     * @param tagId
+     * @param uid
+     * @return
+     */
+    Boolean removeTag(Long tagId, Long uid);
 }

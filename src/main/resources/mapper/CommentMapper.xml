@@ -5,6 +5,8 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.kemorebi.forum.model.entity.Comment">
         <id column="com_id" property="comId" />
+        <result column="uid" property="uid" />
+        <result column="aid" property="aid" />
         <result column="content" property="content" />
         <result column="parent_comment_id" property="parentCommentId" />
         <result column="create_time" property="createTime" />
@@ -13,7 +15,39 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        com_id, content, parent_comment_id, create_time, status
+        com_id, uid, aid, content, parent_comment_id, create_time, status
     </sql>
+    <sql id="ArticleCommont_By_Aid">
+        com_id, u.uid, nickname, avator as uavator, content, parent_comment_id, create_time, status
+    </sql>
+
+    <select id="getCommentByAid" resultType="com.kemorebi.forum.model.dto.CommentDTO">
+        select
+            <include refid="ArticleCommont_By_Aid"/>
+        from forum_comment as c
+            inner join forum_user as u on c.uid=u.uid
+        where c.aid=#{aid}
+            <if test="status!=null">
+                and status=#{status}
+            </if>
+    </select>
+
+    <select id="countCommentForDelete" resultType="java.lang.Integer">
+        select count(*)
+        from forum_comment as c
+            inner join forum_article_user as au  on c.aid=au.aid
+        where c.com_id = #{comId}
+        and (c.uid=#{uid} or au.uid=#{uid})
+    </select>
+
+    <select id="getCommendByPcommentIds" resultType="java.lang.Long">
+        select com_id
+        from forum_comment
+        where parent_comment_id in
+        <foreach collection="comIds" item="comId" separator="," open="(" close=")">
+            #{comId}
+        </foreach>
+
+    </select>
 
 </mapper>

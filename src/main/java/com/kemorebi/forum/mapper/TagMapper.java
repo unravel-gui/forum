@@ -1,8 +1,12 @@
 package com.kemorebi.forum.mapper;
 
+import com.kemorebi.forum.model.dto.TagDTO;
 import com.kemorebi.forum.model.entity.Tag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +18,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface TagMapper extends BaseMapper<Tag> {
-
+    /**
+     * 通过文章ID获得标签
+     * @param aid
+     * @return
+     */
+    List<TagDTO> getTagListByAid(@Param("aid") Long aid);
 }

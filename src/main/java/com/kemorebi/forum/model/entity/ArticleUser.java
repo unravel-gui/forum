@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +16,13 @@ import lombok.Setter;
  * </p>
  *
  * @author 葵gui
- * @since 2023-05-18
+ * @since 2023-05-20
  */
+@Builder
 @Getter
 @Setter
-@TableName("forum_article_user_comment")
-public class ArticleUserComment implements Serializable {
+@TableName("forum_article_user")
+public class ArticleUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,20 +33,14 @@ public class ArticleUserComment implements Serializable {
     private Long id;
 
     /**
-     * 文章ID
-     */
-    @TableField("aid")
-    private Long aid;
-
-    /**
      * 用户ID
      */
     @TableField("uid")
     private Long uid;
 
     /**
-     * 评论ID
+     * 文章ID
      */
-    @TableField("comid")
-    private Long comid;
+    @TableField("aid")
+    private Long aid;
 }
