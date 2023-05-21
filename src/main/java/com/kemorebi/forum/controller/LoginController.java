@@ -100,4 +100,23 @@ public class LoginController extends BaseController {
         return validateCodeService.check(loginParamDTO.getKey(), loginParamDTO.getCode());
     }
 
+    /**
+     * 管理员登录操作
+     * @param loginParamDTO
+     * @return
+     */
+    @ApiOperation(notes = "登录", value = "登录")
+    @PostMapping("/admin/login")
+    public R<LoginDTO> adminLogin(@Validated @RequestBody LoginParamDTO loginParamDTO) {
+        // 校验验证码是否正确
+        boolean check = validateCodeService.check(loginParamDTO.getKey(), loginParamDTO.getCode());
+        if (check) {
+            // 验证码校验通过，执行具体的登录认证逻辑
+            R<LoginDTO> r = authManager.adminLogin(loginParamDTO.getAccount(), loginParamDTO.getPassword());
+            return r;
+        }
+        // 验证码不正确,
+        return success(null, "验证码出错");
+    }
+
 }

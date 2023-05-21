@@ -105,7 +105,7 @@ public class TagController extends BaseController {
      */
     @DeleteMapping("/{tagId}")
     @ApiOperation("删除用户标签")
-    public R<Boolean> deleteTag(@PathVariable("tagID") Long tagId) {
+    public R<Boolean> deleteTag(@PathVariable("tagId") Long tagId) {
         if (tagId==null) {
             return fail("确实标签ID参数");
         }

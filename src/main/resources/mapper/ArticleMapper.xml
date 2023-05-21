@@ -25,11 +25,11 @@
 
     <!-- index查询结果列 -->
     <sql id="Index_Column_List">
-        a.aid as aid, title, a.description as description, cover_img as coverImg, page_view, like_count, create_time, update_time, t.name as type, u.nickname as author, u.avator as uavator
+        a.aid as aid, title, a.description as description, cover_img as coverImg, page_view, like_count, create_time, update_time, a.status, t.name as type, u.nickname as author, u.avator as uavator
     </sql>
     <!-- index查询结果列 -->
     <sql id="Article_By_Aid">
-        a.aid as aid, title, content, a.description as description, cover_img as coverImg, published, commentabled, page_view, like_count, create_time, update_time, t.name as type, u.nickname as author, u.avator as uavator
+        a.aid as aid, title, content, a.description as description, cover_img as coverImg, published, commentabled, page_view, like_count, create_time, update_time, a.status, t.name as type, u.nickname as author, u.avator as uavator
     </sql>
     <update id="addlikeCount">
         update forum_article set like_count=like_count+1
@@ -48,6 +48,7 @@
         inner join forum_article_user as au
         inner join forum_user as u
         where a.status=true and u.uid=au.uid
+        group by a.aid
         <choose>
             <when test="status">
                 order by page_view desc
@@ -105,6 +106,20 @@
             <if test="status!=null">
                 and a.status=#{status}
             </if>
+        group by a.aid
+    </select>
+    <select id="getArticlePage" resultType="com.kemorebi.forum.model.dto.ArticleSimDTO">
+        select
+        <include refid="Index_Column_List"/>
+        from forum_article as a
+        inner join forum_article_type
+        inner join forum_type as t
+        inner join forum_article_user as au
+        inner join forum_user as u
+        where u.uid=au.uid
+        <if test="status!=null">
+            and a.status=#{status}
+        </if>
         group by a.aid
     </select>
 

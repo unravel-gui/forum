@@ -205,6 +205,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return true;
     }
 
+    @Override
+    public PageInfo getArticlePage(Boolean status, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticleSimDTO> dtoList = baseMapper.getArticlePage(status);
+        PageInfo<ArticleSimDTO> pageInfo = new PageInfo<>(dtoList);
+        return pageInfo;
+    }
+
     /**
      * 给分页文章数据添加标签信息
      * @param list

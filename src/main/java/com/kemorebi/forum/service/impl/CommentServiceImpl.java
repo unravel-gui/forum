@@ -1,9 +1,12 @@
 package com.kemorebi.forum.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.kemorebi.forum.common.DefaultSetting;
 import com.kemorebi.forum.model.dto.CommentAddDTO;
 import com.kemorebi.forum.model.dto.CommentDTO;
+import com.kemorebi.forum.model.dto.CommentSimDTO;
 import com.kemorebi.forum.model.entity.Comment;
 import com.kemorebi.forum.mapper.CommentMapper;
 import com.kemorebi.forum.service.CommentService;
@@ -38,6 +41,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return resComList;
     }
 
+    @Override
+    public PageInfo getCommentPage(Boolean status, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<CommentSimDTO> dtoList = baseMapper.getCommentPage(status);
+        PageInfo<CommentSimDTO> pageInfo = new PageInfo<>(dtoList);
+        return pageInfo;
+    }
 
 
     @Override
@@ -89,6 +99,27 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         lbq.eq(Comment::getAid, aid);
         baseMapper.delete(lbq);
         return true;
+    }
+
+    @Override
+    public PageInfo getArticleComment(Long uid, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<CommentSimDTO> dtoList =  baseMapper.getArticleComment(uid);
+        PageInfo<CommentSimDTO> pageInfo = new PageInfo<>(dtoList);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo getUserComment(Long uid, int pageNum, int pageSize) {
+        return getUserComment(uid, pageNum, pageSize, null);
+    }
+
+    @Override
+    public PageInfo getUserComment(Long uid, int pageNum, int pageSize, Boolean status) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<CommentSimDTO> dtoList =  baseMapper.getUserComment(uid, status);
+        PageInfo<CommentSimDTO> pageInfo = new PageInfo<>(dtoList);
+        return pageInfo;
     }
 
     /**

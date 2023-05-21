@@ -5,6 +5,8 @@ import com.kemorebi.forum.model.dto.*;
 import com.kemorebi.forum.model.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -14,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-05-18
  */
 public interface ArticleService extends IService<Article> {
+
     /**
      * 点赞
      * @param aid
@@ -98,4 +101,13 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Boolean removeArticle(Long aid);
+
+    /**
+     * 获得文章分页数据
+     * @param status 审核状态，null表示无影响
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getArticlePage(Boolean status, int pageNum, int pageSize);
 }

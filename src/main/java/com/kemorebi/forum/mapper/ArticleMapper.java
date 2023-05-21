@@ -40,9 +40,24 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param aid
      * @return
      */
-
     ArticleDTO getArticleByAid(@Param("aid") Long aid,@Param("published") Boolean published, @Param("status") Boolean status);
 
+    /**
+     * 浏览量加一
+     * @param aid
+     */
     void addPageView(@Param("aid") Long aid);
+
+    /**
+     * 点赞数加一
+     * @param aid
+     */
     void addlikeCount(@Param("aid") Long aid);
+
+    /**
+     * 获得文章分页数据
+     * @param status 审核状态，null表示无影响
+     * @return
+     */
+    List<ArticleSimDTO> getArticlePage(@Param("status") Boolean status);
 }

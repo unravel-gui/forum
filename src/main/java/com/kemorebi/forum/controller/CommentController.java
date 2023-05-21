@@ -1,11 +1,14 @@
 package com.kemorebi.forum.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import com.kemorebi.forum.common.BaseController;
 import com.kemorebi.forum.common.R;
 import com.kemorebi.forum.exception.BizException;
 import com.kemorebi.forum.exception.code.ExceptionCode;
 import com.kemorebi.forum.model.dto.CommentAddDTO;
 import com.kemorebi.forum.model.dto.CommentDTO;
+import com.kemorebi.forum.model.dto.PageDTO;
 import com.kemorebi.forum.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -74,5 +77,31 @@ public class CommentController extends BaseController {
             return success();
         }
         return fail(new BizException(ExceptionCode.UNAUTHORIZED.getCode(), ExceptionCode.UNAUTHORIZED.getMsg()));
+    }
+
+    /**
+     *  获得用户的所有评论
+     * @return
+     */
+    @GetMapping("userComment")
+    public R<PageDTO> getUserComment(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                 @RequestParam(value = "pageSize", required = false, defaultValue = "20")  int pageSize) {
+        Long uid = getUserId();
+        PageInfo pageInfo = commentService.getUserComment(uid, pageNum, pageSize);
+        PageDTO pageDTO = new PageDTO(pageInfo);
+        return success(pageDTO);
+    }
+
+    /**
+     *  获得用户文章的所有评论
+     * @return
+     */
+    @GetMapping("author")
+    public R<PageDTO> getComment(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+                                 @RequestParam(value = "pageSize", required = false, defaultValue = "20")  int pageSize) {
+        Long uid = getUserId();
+        PageInfo pageInfo = commentService.getArticleComment(uid, pageNum, pageSize);
+        PageDTO pageDTO = new PageDTO(pageInfo);
+        return success(pageDTO);
     }
 }

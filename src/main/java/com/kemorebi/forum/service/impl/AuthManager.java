@@ -2,6 +2,7 @@ package com.kemorebi.forum.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.kemorebi.forum.common.R;
+import com.kemorebi.forum.exception.BizException;
 import com.kemorebi.forum.model.dto.LoginDTO;
 import com.kemorebi.forum.model.dto.UserDTO;
 import com.kemorebi.forum.model.entity.User;
@@ -44,7 +45,12 @@ public class AuthManager {
 //            .description(user.getDescription()).build();
 
 
-    // 登录认证
+    /**
+     * 登录认证
+     * @param account
+     * @param password
+     * @return
+     */
     public R<LoginDTO> login(String account, String password) {
         // 校验账号
         R<User> userR = check(account, password);
@@ -78,7 +84,11 @@ public class AuthManager {
         return R.success(user);
     }
 
-    // 生成LoginDTO
+    /**
+     * 生成LoginDTO
+     * @param account
+     * @return
+     */
     public R<LoginDTO> register(String account) {
         // 认证成功，为用户生成jwt令牌
         User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getAccount, account));
@@ -92,7 +102,42 @@ public class AuthManager {
                 .build();
         return R.success(loginDTO);
     }
-    // 为用户生成对应的jwt令牌
+
+    /**
+     * 管理员登录认证
+     * @param account
+     * @param password
+     * @return
+     */
+    public R<LoginDTO> adminLogin(String account, String password) {
+        // 校验账号
+        R<User> userR = check(account, password);
+        Boolean isError = userR.getIsError();
+        if (isError) {
+            return R.fail("认证失败");
+        }
+
+        // 认证成功，为用户生成jwt令牌
+        User user = userR.getData();
+        if (!user.getAdmin()) {
+            return R.fail(new BizException(ExceptionCode.UNAUTHORIZED.getCode(), "你是管理员吗你就登，没你好果汁儿吃 (= O_o"));
+//            return R.fail(new BizException(ExceptionCode.UNAUTHORIZED.getCode(), ExceptionCode.UNAUTHORIZED.getMsg()));
+        }
+        Token token = generateUserToken(user);
+
+        // 封装返回结果
+        LoginDTO loginDTO = LoginDTO.builder()
+                .user(dozerUtils.map(user, UserDTO.class))
+                .token(token)
+                .build();
+        return R.success(loginDTO);
+    }
+
+    /**
+     * 为用户生成对应的jwt令牌
+     * @param user
+     * @return
+     */
     public Token generateUserToken(User user) {
         JwtUserInfo jwtUserInfo = new JwtUserInfo(user.getUid(),
                 user.getAccount(),

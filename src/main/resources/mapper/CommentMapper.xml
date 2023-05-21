@@ -20,7 +20,12 @@
     <sql id="ArticleCommont_By_Aid">
         com_id, u.uid, nickname, avator as uavator, content, parent_comment_id, create_time, status
     </sql>
-
+    <sql id="ArticleCommont_By_Status">
+        com_id, uid, aid, content, create_time, status
+    </sql>
+    <sql id="ArticleCommont_By_uid">
+        com_id, c.uid, c.aid, content, create_time, status
+    </sql>
     <select id="getCommentByAid" resultType="com.kemorebi.forum.model.dto.CommentDTO">
         select
             <include refid="ArticleCommont_By_Aid"/>
@@ -48,6 +53,33 @@
             #{comId}
         </foreach>
 
+    </select>
+    <select id="getCommentPage" resultType="com.kemorebi.forum.model.dto.CommentSimDTO">
+        select
+            <include refid="ArticleCommont_By_Status"/>
+        from forum_comment as c
+        where 1=1
+        <if test="status!=null">
+            and status=#{status}
+        </if>
+    </select>
+    <select id="getArticleComment" resultType="com.kemorebi.forum.model.dto.CommentSimDTO">
+        select
+            <include refid="ArticleCommont_By_uid"/>
+        from forum_comment as c
+            inner join forum_article_user as au on c.aid=au.aid
+        where c.status=true
+        and au.uid=#{uid}
+    </select>
+
+    <select id="getUserComment" resultType="com.kemorebi.forum.model.dto.CommentSimDTO">
+        select
+            <include refid="ArticleCommont_By_Status"/>
+        from forum_comment
+        where uid=#{uid}
+        <if test="status!=null">
+            and status=#{status}
+        </if>
     </select>
 
 </mapper>

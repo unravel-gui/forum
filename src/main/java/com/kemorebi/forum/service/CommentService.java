@@ -1,5 +1,6 @@
 package com.kemorebi.forum.service;
 
+import com.github.pagehelper.PageInfo;
 import com.kemorebi.forum.model.dto.CommentAddDTO;
 import com.kemorebi.forum.model.dto.CommentDTO;
 import com.kemorebi.forum.model.entity.Comment;
@@ -24,6 +25,15 @@ public interface CommentService extends IService<Comment> {
      */
 
     List<CommentDTO> getCommentByAid(Long aid, Boolean status);
+
+    /**
+     * 查询评论分页数据
+     * @param status 审核状态，null表示无影响
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getCommentPage(Boolean status, int pageNum, int pageSize);
 
     /**
      * 添加评论
@@ -55,4 +65,32 @@ public interface CommentService extends IService<Comment> {
      * @return
      */
     Boolean deleteCommentByAid(Long aid);
+
+    /**
+     * 根据用户ID获得用户文章的所有评论
+     * @param uid
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getArticleComment(Long uid, int pageNum, int pageSize);
+
+    /**
+     * 获得用户的所有评论
+     * @param uid
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo getUserComment(Long uid, int pageNum, int pageSize);
+
+    /**
+     *  获得用户的所有评论
+     * @param uid
+     * @param pageNum
+     * @param pageSize
+     * @param status 评论审核状态，null表示无影响
+     * @return
+     */
+    PageInfo getUserComment(Long uid, int pageNum, int pageSize, Boolean status);
 }
