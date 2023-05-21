@@ -12,6 +12,7 @@ import com.kemorebi.forum.service.impl.AuthManager;
 import com.kemorebi.forum.utils.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ import java.io.IOException;
 /**
  * 登录认证控制器
  */
+@Slf4j
 @RestController
 @RequestMapping("/anno")
 @Api(tags = "登录控制器", value = "LoginController")

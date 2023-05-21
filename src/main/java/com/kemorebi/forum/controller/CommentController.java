@@ -12,6 +12,7 @@ import com.kemorebi.forum.model.dto.PageDTO;
 import com.kemorebi.forum.service.CommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.util.List;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Api(tags = "评论控制器", value = "提供评论操作")
 @RestController
 @RequestMapping("/comment")

@@ -14,6 +14,7 @@ import com.kemorebi.forum.service.TagService;
 import com.kemorebi.forum.utils.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Api(tags = "标签控制器", value = "标签对应的操作")
 @RestController
 @RequestMapping("/tag")
@@ -60,7 +62,7 @@ public class TagController extends BaseController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/taglist")
+    @GetMapping("/tagList")
     @ApiOperation("获得用户标签列表信息")
     public R<PageDTO> getTags(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
                                @RequestParam(value = "pageSize", required = false, defaultValue = "20")  int pageSize) {
@@ -78,6 +80,12 @@ public class TagController extends BaseController {
     @ApiOperation("添加用户标签")
     public R<Boolean> addTag(@Validated @RequestBody TagAddDTO dto) {
         Long uid = getUserId();
+        if (tagService.isTagExist(uid, dto.getName())) {
+            return fail("标签已存在");
+        }
+        if (tagService.isTagMax(uid)) {
+            return fail("用户标签数量已达上限");
+        }
         tagService.saveTag(dto, uid);
         return success();
     }
@@ -95,6 +103,7 @@ public class TagController extends BaseController {
                 .eq(Tag::getUid, uid)
                 .set(Tag::getName, dto.getName());
         tagService.update(lbu);
+        log.info("修改标签[%s]成功, 参数信息:%s", dto.getTagId(), dto);
         return success();
     }
 

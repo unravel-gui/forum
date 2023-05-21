@@ -7,6 +7,7 @@ import com.kemorebi.forum.model.entity.User;
 import com.kemorebi.forum.mapper.UserMapper;
 import com.kemorebi.forum.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
@@ -53,6 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             lbu.set(User::getDescription, dto.getDescription());
         }
         update(lbu);
+        log.info("用户[%s] 信息修改成功, 修改参数为: %s", dto.getUid(), dto);
         return true;
     }
 }

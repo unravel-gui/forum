@@ -1,5 +1,6 @@
 package com.kemorebi.forum.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,6 +13,7 @@ import com.kemorebi.forum.mapper.CommentMapper;
 import com.kemorebi.forum.service.CommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kemorebi.forum.utils.DozerUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ import java.util.*;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
@@ -61,6 +64,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .status(DefaultSetting.DEFAULT_COMMENT_STATUS)
                 .build();
         baseMapper.insert(comment);
+        log.info("添加评论成功: %s", comment);
         return true;
     }
 
@@ -85,11 +89,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             List<Long> ids = (List<Long>) needToDelete;
             // 删除当前节点
             baseMapper.deleteBatchIds(ids);
+            log.info("评论被删除: %s", JSONObject.toJSONString(ids));
             // 查询以删除评论的子评论
             ids = baseMapper.getCommendByPcommentIds(ids);
-//            needToDelete.clear();
             needToDelete = new LinkedList<>(ids);
         }
+        log.info("评论[%s] 及其子评论删除成功", comId);
         return true;
     }
 
@@ -98,6 +103,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         LambdaQueryWrapper<Comment> lbq = new LambdaQueryWrapper<>();
         lbq.eq(Comment::getAid, aid);
         baseMapper.delete(lbq);
+        log.info("文章[%s]的评论删除成功", aid);
         return true;
     }
 

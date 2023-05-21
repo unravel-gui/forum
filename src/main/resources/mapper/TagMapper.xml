@@ -25,4 +25,9 @@
         and at.aid=#{aid}
     </select>
 
+    <select id="countTagByUid" resultType="java.lang.Integer">
+        select count(*)
+        from forum_tag
+        where uid=#{uid}
+    </select>
 </mapper>

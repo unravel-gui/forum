@@ -18,4 +18,12 @@ public interface TypeService extends IService<Type> {
      * @return
      */
     Boolean removeType(Long typeId);
+
+    /**
+     * 判断分类是否已存在
+     * @param name
+     * @return
+     */
+    Boolean isTypeExist(String name);
+
 }

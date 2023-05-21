@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import javax.naming.Name;
 import java.util.List;
 
 /**
@@ -24,4 +25,11 @@ public interface TagMapper extends BaseMapper<Tag> {
      * @return
      */
     List<TagDTO> getTagListByAid(@Param("aid") Long aid);
+
+    /**
+     * 计算用户标签数量
+     * @param uid
+     * @return
+     */
+    Integer countTagByUid(@Param("uid") Long uid);
 }

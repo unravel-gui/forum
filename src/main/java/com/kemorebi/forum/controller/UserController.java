@@ -18,6 +18,7 @@ import com.kemorebi.forum.service.UserService;
 import com.kemorebi.forum.utils.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Api(tags = "用户控制器", value = "提供用户信息操作")
 @RestController
 @RequestMapping("/user")

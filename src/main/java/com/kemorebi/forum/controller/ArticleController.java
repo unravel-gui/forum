@@ -13,6 +13,7 @@ import com.kemorebi.forum.utils.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Api(tags = "文章控制器", value = "提供文章操作")
 @RestController
 @RequestMapping("/article")
@@ -35,10 +37,6 @@ public class ArticleController extends BaseController {
     private ArticleService articleService;
     @Autowired
     private ArticleUserService articleUserService;
-    @Autowired
-    private DozerUtils dozerUtils;
-
-
 
     /**
      * 用户本人获得管理员获得全部文章信息(无论是否通过审核)

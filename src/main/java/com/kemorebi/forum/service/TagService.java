@@ -18,6 +18,7 @@ import java.util.List;
  * @since 2023-05-18
  */
 public interface TagService extends IService<Tag> {
+
     /**
      * 通过文章ID会的Tag标签
      * @param aid
@@ -35,6 +36,14 @@ public interface TagService extends IService<Tag> {
     PageInfo getTagListByUid(Long uid, int pageNum, int pageSize);
 
     /**
+     * 判断标签是否已存在
+     * @param uid
+     * @param name
+     * @return
+     */
+    Boolean isTagExist(Long uid, String name);
+
+    /**
      * 新增标签
      * @param dto
      * @param uid
@@ -49,4 +58,11 @@ public interface TagService extends IService<Tag> {
      * @return
      */
     Boolean removeTag(Long tagId, Long uid);
+
+    /**
+     * 是否达到用户标签数量的上限
+     * @param uid
+     * @return
+     */
+    Boolean isTagMax(Long uid);
 }

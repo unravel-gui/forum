@@ -10,6 +10,7 @@ import com.kemorebi.forum.mapper.ArticleMapper;
 import com.kemorebi.forum.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kemorebi.forum.utils.DozerUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
@@ -91,7 +93,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setStatus(false);
         // 保存文章信息
         save(article);
-        System.out.println(article.getAid());
+        log.info("文章[%s]保存成功", article.getAid());
         // 建立文章和用户之间的映射关系
         ArticleUser au = ArticleUser.builder()
                 .uid(uid)
@@ -100,12 +102,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         au.setUid(uid);
         au.setAid(article.getAid());
         articleUserService.save(au);
+        log.info("uid[%s]与文章[%s]成功建立映射", au.getUid(), au.getAid());
         // 建立文章和分类关系
         ArticleType atp = ArticleType.builder()
                 .aid(article.getAid())
                 .typeId(dto.getTypeId()==null?1:dto.getTypeId())
                 .build();
         articleTypeService.save(atp);
+        log.info("文章[%s]与分类[%s]成功建立映射", atp.getAid(),atp.getTypeId());
         // 建立文章和标签之间的关系
         List<Long> tagIds = dto.getTagIds();
         if (tagIds != null) {
@@ -114,8 +118,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         .aid(article.getAid())
                         .tagId(tagId).build();
                 articleTagService.save(articleTag);
+                log.info("文章[%s]与标签[%s]成功建立映射", articleTag.getAid(), articleTag.getTagId());
             }
         }
+        log.info("uid[%s]提交文章[%s]成功,文章标题 [%s]", uid, article.getAid(), article.getTitle());
         return true;
     }
 
@@ -153,7 +159,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                     .build();
             articleTagService.save(at);
         }
-
+        log.info("文章[%s] 被用户修改", dto.getAid());
         return true;
     }
 
@@ -202,6 +208,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleTagService.remove(lbqtg);
         // 删除文章评论
         commentService.deleteCommentByAid(aid);
+        log.info("文章[%s]信息及其映射关系删除成功", aid);
         return true;
     }
 

@@ -33,18 +33,6 @@ public class AuthManager {
     @Autowired
     private JwtTokenServerUtils jwtTokenServerUtils;
 
-    // 认证成功，为用户生成jwt令牌
-//    User user = userR.getData();
-//    Token token = generateUserToken(user);
-//    UserDTO dto = UserDTO.builder()
-//            .account(user.getAccount())
-//            .age(user.getAge())
-//            .avatar(user.getAccount())
-//            .gender(user.getGender())
-//            .email(user.getEmail())
-//            .description(user.getDescription()).build();
-
-
     /**
      * 登录认证
      * @param account
@@ -62,12 +50,12 @@ public class AuthManager {
         // 认证成功，为用户生成jwt令牌
         User user = userR.getData();
         Token token = generateUserToken(user);
-
         // 封装返回结果
         LoginDTO loginDTO = LoginDTO.builder()
                 .user(dozerUtils.map(user, UserDTO.class))
                 .token(token)
                 .build();
+        log.info("用户登录成功: ", loginDTO);
         return R.success(loginDTO);
     }
 
@@ -100,6 +88,7 @@ public class AuthManager {
                 .user(dozerUtils.map(user, UserDTO.class))
                 .token(token)
                 .build();
+        log.info("用户注册成功: ", loginDTO);
         return R.success(loginDTO);
     }
 
@@ -114,14 +103,16 @@ public class AuthManager {
         R<User> userR = check(account, password);
         Boolean isError = userR.getIsError();
         if (isError) {
+            log.info("账号[%s} 尝试使用 [%s] 登录失败", account, password);
             return R.fail("认证失败");
         }
 
         // 认证成功，为用户生成jwt令牌
         User user = userR.getData();
         if (!user.getAdmin()) {
+            user.setPassword(null);
+            log.info("普通用户尝试垂直越权,用户信息: %s", user);
             return R.fail(new BizException(ExceptionCode.UNAUTHORIZED.getCode(), "你是管理员吗你就登，没你好果汁儿吃 (= O_o"));
-//            return R.fail(new BizException(ExceptionCode.UNAUTHORIZED.getCode(), ExceptionCode.UNAUTHORIZED.getMsg()));
         }
         Token token = generateUserToken(user);
 
@@ -130,6 +121,7 @@ public class AuthManager {
                 .user(dozerUtils.map(user, UserDTO.class))
                 .token(token)
                 .build();
+        log.info("管理员登录成功: %s", loginDTO);
         return R.success(loginDTO);
     }
 

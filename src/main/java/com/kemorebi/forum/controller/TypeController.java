@@ -16,6 +16,7 @@ import com.kemorebi.forum.utils.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ import java.util.List;
  * @author 葵gui
  * @since 2023-05-18
  */
+@Slf4j
 @Api(tags = "分类控制器", value = "提供分类操作")
 @RestController
 @RequestMapping("/type")
@@ -82,6 +84,9 @@ public class TypeController extends BaseController {
     @ApiOperation("新增分类信息")
     public R<Boolean> addType(@Validated @RequestBody TypeAddDTO dto) {
         if (getAdmin()) {
+            if (typeService.isTypeExist(dto.getName())) {
+                return fail("分类已存在");
+            }
             Type type = Type.builder()
                     .name(dto.getName())
                     .build();
@@ -105,6 +110,7 @@ public class TypeController extends BaseController {
             lbu.eq(Type::getTypeId, dto.getTypeId())
                     .set(Type::getName, dto.getName());
             typeService.update(lbu);
+            log.info("修改分类[%s]成功，参数信息: %s", dto.getTypeId(), dto);
             return success();
         }
         // 权限不足

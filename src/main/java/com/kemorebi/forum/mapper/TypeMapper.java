@@ -3,6 +3,7 @@ package com.kemorebi.forum.mapper;
 import com.kemorebi.forum.model.entity.Type;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
