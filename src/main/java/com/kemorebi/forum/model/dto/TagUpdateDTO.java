@@ -17,7 +17,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@ApiModel(value = "TagTO", description = "标签信息传输类")
+@ApiModel(value = "TagDTO", description = "标签信息传输类")
 public class TagUpdateDTO implements Serializable {
 
 
