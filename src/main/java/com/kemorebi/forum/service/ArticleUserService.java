@@ -15,12 +15,6 @@ import java.util.List;
  * @since 2023-05-20
  */
 public interface ArticleUserService extends IService<ArticleUser> {
-    /**
-     * 通过用户ID获得文章ID
-     * @param uid
-     * @return
-     */
-    List<Long> getArticleIdByUid(Long uid);
 
     /**
      * 通过文章ID获得用户ID

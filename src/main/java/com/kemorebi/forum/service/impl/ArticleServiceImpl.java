@@ -66,11 +66,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public PageInfo<ArticleSimDTO> getArticleListByUid(Long uid, int pageNum, int pageSize) {
         // 获得该用户的文章ID
         PageHelper.startPage(pageNum, pageSize);
-        // 获得文章ID
-        List<Long> ids = articleUserService.getArticleIdByUid(uid);
-        // 通过ID，获得文章
-        List<Article> articleList = baseMapper.selectBatchIds(ids);
-        List<ArticleSimDTO> simDTOList = dozerUtils.mapList(articleList, ArticleSimDTO.class);
+        // 根据用户ID，获得文章
+        List<ArticleSimDTO> simDTOList =  baseMapper.getArticleIdByUid(uid);
         fillArticleListWithTags(simDTOList);
         PageInfo<ArticleSimDTO> pageInfo = new PageInfo<>(simDTOList);
         return pageInfo;

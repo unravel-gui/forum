@@ -23,16 +23,6 @@ import java.util.stream.Collectors;
 public class ArticleUserServiceImpl extends ServiceImpl<ArticleUserMapper, ArticleUser> implements ArticleUserService {
 
     @Override
-    public List<Long> getArticleIdByUid(Long uid) {
-        LambdaQueryWrapper<ArticleUser> lbq = new LambdaQueryWrapper<>();
-        lbq.select(ArticleUser::getAid)
-                .eq(ArticleUser::getAid, uid);
-        List<ArticleUser> aus = baseMapper.selectList(lbq);
-        List<Long> ids = aus.stream().mapToLong(ArticleUser::getAid).boxed().collect(Collectors.toList());
-        return ids;
-    }
-
-    @Override
     public Long getUidByArticleId(Long aid) {
         LambdaQueryWrapper<ArticleUser> lbq = new LambdaQueryWrapper<>();
         lbq.eq(ArticleUser::getAid, aid);

@@ -39,7 +39,7 @@ public class ArticleController extends BaseController {
     private ArticleUserService articleUserService;
 
     /**
-     * 用户本人获得管理员获得全部文章信息(无论是否通过审核)
+     * 用户本人或管理员获得全部文章信息(无论是否通过审核)
      * @param aid
      * @return
      */

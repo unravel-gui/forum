@@ -43,6 +43,13 @@ public interface ArticleMapper extends BaseMapper<Article> {
     ArticleDTO getArticleByAid(@Param("aid") Long aid,@Param("published") Boolean published, @Param("status") Boolean status);
 
     /**
+     * 通过用户ID获得文章ID
+     * @param uid
+     * @return
+     */
+    List<ArticleSimDTO> getArticleIdByUid(@Param("uid") Long uid);
+
+    /**
      * 浏览量加一
      * @param aid
      */

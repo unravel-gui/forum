@@ -44,7 +44,7 @@ public class TagController extends BaseController {
      * @param tagId
      * @return
      */
-    @GetMapping
+    @GetMapping("/{tagId}")
     @ApiOperation("获得用户标签信息")
     public R<TagDTO> getTag(@PathVariable("tagId") Long tagId) {
         Long uid = getUserId();
