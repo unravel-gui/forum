@@ -72,7 +72,7 @@ public class ArticleSimDTO implements Serializable {
      * 分类
      */
     @ApiModelProperty("分类")
-    private Type type;
+    private String type;
 
     /**
      * 标签

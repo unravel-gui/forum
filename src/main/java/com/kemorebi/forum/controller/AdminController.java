@@ -81,7 +81,7 @@ public class AdminController extends BaseController {
      * @return
      */
     @GetMapping("/article")
-    @ApiOperation("获得所有的评论分页信息")
+    @ApiOperation("获得所有的文章分页信息")
     public R<PageDTO> getArticleList(@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
                                      @RequestParam(value = "pageSize", required = false, defaultValue = "20")  int pageSize,
                                      @RequestParam(value = "status", required = false) Boolean status) {

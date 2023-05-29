@@ -6,18 +6,23 @@ import com.kemorebi.forum.exception.BizException;
 import com.kemorebi.forum.exception.code.ExceptionCode;
 import com.kemorebi.forum.utils.jwt.JwtUserInfo;
 import com.kemorebi.forum.utils.jwt.client.JwtTokenClientUtils;
+import io.swagger.models.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 @Slf4j
+@Order(Ordered.LOWEST_PRECEDENCE)
 @WebFilter(urlPatterns = "/*")
 @Configuration
 public class TokenContextFilter extends BaseFilter implements Filter {
@@ -38,6 +43,23 @@ public class TokenContextFilter extends BaseFilter implements Filter {
             log.info("令牌验证成功，放行");
             filterChain.doFilter(servletRequest, servletResponse);
             return;
+        }
+        if (HttpMethod.OPTIONS.toString().equals(request.getMethod())){
+            System.out.println("OPTIONS请求，设置响应头");
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+
+            // 结束请求，直接返回响应
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            String headerValue = request.getHeader(headerName);
+            System.out.println(headerName + ": " + headerValue);
         }
         // 从请求头中获取前端提交的jwt令牌
         String userToken = request.getHeader(BaseContextConstants.TOKEN_NAME);
@@ -82,6 +104,7 @@ public class TokenContextFilter extends BaseFilter implements Filter {
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
+
 
     @Override
     public void destroy() {

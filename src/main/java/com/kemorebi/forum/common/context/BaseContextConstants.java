@@ -8,7 +8,7 @@ public class BaseContextConstants {
     /**
      * token
      */
-    public static final String TOKEN_NAME = "token";
+    public static final String TOKEN_NAME = "Authorization";
     /**
      *  用户ID
      */

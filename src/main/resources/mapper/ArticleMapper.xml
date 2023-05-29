@@ -122,5 +122,19 @@
         </if>
         group by a.aid
     </select>
+    <select id="getArticleIdByUid" resultType="com.kemorebi.forum.model.dto.ArticleSimDTO">
+        select
+        <include refid="Index_Column_List"/>
+        from forum_article as a
+        inner join forum_article_type
+        inner join forum_type as t
+        inner join forum_article_user as au
+        inner join forum_user as u
+        where a.aid=au.aid and au.uid = u.uid
+        and au.uid=#{uid}
+        group by a.aid
+        order by create_time
+        desc
+    </select>
 
 </mapper>
