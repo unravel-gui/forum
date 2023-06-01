@@ -29,7 +29,7 @@ public class CommentDTO implements Serializable {
     /**
      * 评论者名称
      */
-    @ApiModelProperty("nickname")
+    @ApiModelProperty("评论者名称")
     private String nickname;
 
     /**

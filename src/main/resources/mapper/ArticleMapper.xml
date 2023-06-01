@@ -43,11 +43,11 @@
         select
             <include refid="Index_Column_List"/>
         from forum_article as a
-        inner join forum_article_type
+        inner join forum_article_type as at
         inner join forum_type as t
         inner join forum_article_user as au
         inner join forum_user as u
-        where a.status=true and u.uid=au.uid
+        where a.status=true and u.uid=au.uid and at.aid= a.aid and at.type_id=t.type_id and au.aid=a.aid
         group by a.aid
         <choose>
             <when test="status">
@@ -62,21 +62,21 @@
         select
         <include refid="Index_Column_List"/>
         from forum_article as a
-        inner join forum_article_type
+        inner join forum_article_type as at
         inner join forum_type as t
         inner join forum_article_user as au
         inner join forum_user as u
-        where a.status=true and u.uid=au.uid
+        where a.status=true and u.uid=au.uid and at.aid= a.aid and at.type_id=t.type_id and au.aid=a.aid
         and ( 1=0
         <choose>
             <when test="dto.query!=null">
-                or a.title like #{dto.query}
+                or a.title like "%"#{dto.query}"%"
             </when>
             <when test="dto.type!=null">
-                or t.name like #{dto.type}
+                or t.name like "%"#{dto.type}"%"
             </when>
             <when test="dto.query!=null">
-                or u.nickname like #{dto.query}
+                or u.nickname like "%"#{dto.query}"%"
             </when>
         </choose>
         )
