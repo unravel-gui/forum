@@ -2,6 +2,7 @@ package com.kemorebi.forum.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.kemorebi.forum.model.dto.UserSimDTO;
 import com.kemorebi.forum.model.dto.UserUpdateDTO;
 import com.kemorebi.forum.model.entity.User;
 import com.kemorebi.forum.mapper.UserMapper;
@@ -9,6 +10,8 @@ import com.kemorebi.forum.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -57,5 +60,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         update(lbu);
         log.info("用户[%s] 信息修改成功, 修改参数为: %s", dto.getUid(), dto);
         return true;
+    }
+
+    @Override
+    public List<UserSimDTO> queryUser(String query) {
+        return baseMapper.queryUser(query);
     }
 }

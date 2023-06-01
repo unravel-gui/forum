@@ -17,13 +17,13 @@ public class CommentDTO implements Serializable {
     /**
      * 评论ID
      */
-    @ApiModelProperty("comID")
+    @ApiModelProperty("评论ID")
     private Long comId;
 
     /**
      * 评论者ID
      */
-    @ApiModelProperty("uid")
+    @ApiModelProperty("评论者ID")
     private Long uid;
 
     /**

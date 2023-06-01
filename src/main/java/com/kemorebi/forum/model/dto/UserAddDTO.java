@@ -66,7 +66,7 @@ public class UserAddDTO implements Serializable {
      * 头像
      */
     @ApiModelProperty("头像")
-    private String avatar;
+    private String avator;
 
     /**
      * 简介

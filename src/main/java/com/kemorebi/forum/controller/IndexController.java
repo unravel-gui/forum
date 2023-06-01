@@ -1,15 +1,19 @@
 package com.kemorebi.forum.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.kemorebi.forum.common.BaseController;
 import com.kemorebi.forum.common.R;
 import com.kemorebi.forum.model.dto.*;
 import com.kemorebi.forum.model.entity.Article;
 import com.kemorebi.forum.model.entity.Type;
+import com.kemorebi.forum.model.entity.User;
 import com.kemorebi.forum.service.ArticleService;
 import com.kemorebi.forum.service.TypeService;
+import com.kemorebi.forum.service.UserService;
 import com.kemorebi.forum.utils.DozerUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Slf4j
@@ -29,6 +34,8 @@ public class IndexController extends BaseController {
     private TypeService typeService;
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private DozerUtils dozerUtils;
 
@@ -91,4 +98,11 @@ public class IndexController extends BaseController {
         return success(new PageDTO(pageInfo));
     }
 
+
+    @PostMapping("/queryuser")
+    @ApiModelProperty("查询用户")
+    public R<List<UserSimDTO>> queryUser(@RequestParam(name = "query") String query) {
+        List<UserSimDTO> users = userService.queryUser(query);
+        return success(users);
+    }
 }

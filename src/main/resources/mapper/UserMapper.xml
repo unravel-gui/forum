@@ -21,5 +21,16 @@
     <sql id="Base_Column_List">
         uid, nickname, account, password, age, gender, email, mobile, avator, description, admin
     </sql>
+    <sql id="Base_Query_list">
+        uid, nickname, account, gender, avator, description
+    </sql>
+    <select id="queryUser" resultType="com.kemorebi.forum.model.dto.UserSimDTO">
+        select
+            <include refid="Base_Query_list"></include>
+        from forum_user
+        where nickname like "%"#{query}"%"
+        or account like "%"#{query}"%"
+    </select>
+
 
 </mapper>
