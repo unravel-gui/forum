@@ -4,8 +4,9 @@ server:
 spring:
   datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 #    url: jdbc:mysql://localhost:3306/forum?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    # 监控sql
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
     url: jdbc:p6spy:mysql://localhost:3306/forum?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: forum
     password: 123456

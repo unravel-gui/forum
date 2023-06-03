@@ -94,11 +94,11 @@
         select
             <include refid="Article_By_Aid"/>
         from forum_article as a
-            inner join forum_article_type
+            inner join forum_article_type as at
             inner join forum_type as t
             inner join forum_article_user as au
             inner join forum_user as u
-        where u.uid=au.uid
+        where u.uid=au.uid and at.aid= a.aid and at.type_id=t.type_id and au.aid=a.aid
             and a.aid=#{aid}
             <if test="published!=null">
                 and a.published=#{published}
@@ -112,11 +112,11 @@
         select
         <include refid="Index_Column_List"/>
         from forum_article as a
-        inner join forum_article_type
+        inner join forum_article_type as at
         inner join forum_type as t
         inner join forum_article_user as au
         inner join forum_user as u
-        where u.uid=au.uid
+        where u.uid=au.uid and at.aid= a.aid and at.type_id=t.type_id and au.aid=a.aid
         <if test="status!=null">
             and a.status=#{status}
         </if>
@@ -126,11 +126,11 @@
         select
         <include refid="Index_Column_List"/>
         from forum_article as a
-        inner join forum_article_type
+        inner join forum_article_type as at
         inner join forum_type as t
         inner join forum_article_user as au
         inner join forum_user as u
-        where a.aid=au.aid and au.uid = u.uid
+        where a.aid=au.aid and u.uid=au.uid and at.aid= a.aid and at.type_id=t.type_id and au.aid=a.aid
         and au.uid=#{uid}
         group by a.aid
         order by create_time
