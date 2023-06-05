@@ -87,6 +87,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setUpdateTime(LocalDateTime.now());
         article.setLikeCount(new Long(0));
         article.setPageView(new Long(0));
+        article.setCommentabled(dto.getCommentabled()==null?DefaultSetting.DEFAULT_COMMENTABLED:dto.getCommentabled());
+        article.setPublished(dto.getPublished()==null?DefaultSetting.DEFAULT_PUBLISHED:dto.getPublished());
         // 默认为通过审核
         article.setStatus(DefaultSetting.DEFAULT_ARTICLE_STATUS);
         // 保存文章信息
