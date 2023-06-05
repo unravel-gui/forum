@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.kemorebi.forum.common.DefaultSetting;
 import com.kemorebi.forum.model.dto.*;
 import com.kemorebi.forum.model.entity.*;
 import com.kemorebi.forum.mapper.ArticleMapper;
@@ -87,7 +88,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         article.setLikeCount(new Long(0));
         article.setPageView(new Long(0));
         // 默认为通过审核
-        article.setStatus(false);
+        article.setStatus(DefaultSetting.DEFAULT_ARTICLE_STATUS);
         // 保存文章信息
         save(article);
         log.info("文章[%s]保存成功", article.getAid());
