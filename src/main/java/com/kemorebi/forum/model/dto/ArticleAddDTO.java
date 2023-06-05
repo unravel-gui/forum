@@ -47,13 +47,13 @@ public class ArticleAddDTO implements Serializable {
      * 文章是否公开
      */
     @ApiModelProperty("文章是否公开")
-    private boolean published;
+    private Boolean published;
 
     /**
      * 是否启用评论
      */
     @ApiModelProperty("是否启用评论")
-    private boolean commentabled;
+    private Boolean commentabled;
 
     /**
      * 分类ID
